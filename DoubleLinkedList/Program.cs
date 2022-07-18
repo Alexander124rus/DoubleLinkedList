@@ -16,39 +16,40 @@ namespace DoubleLinkedList
             list.Add(3);
             list.Add(4);
 
-            list.Print();
+            list.PrintList();
             Console.ReadKey();
         }
     }
 
     class Node<ITEM>
     {
-        private ITEM data;
-        private Node<ITEM> next;
-        private Node<ITEM> prev;
-        public ITEM Data
-        {
-            get;
-            set;
-        }
-        public Node<ITEM> Next
-        {
-            get;
-            set;
-        }
-        public Node<ITEM> Prev
-        {
-            get;
-            set;
-        }
+        public ITEM data;
+        public Node<ITEM> next;
+        public Node<ITEM> prev;
+        //public ITEM Data
+        //{
+        //    get;
+        //    set;
+        //}
+        //public Node<ITEM> Next
+        //{
+        //    get;
+        //    set;
+        //}
+        //public Node<ITEM> Prev
+        //{
+        //    get;
+        //    set;
+        //}
         public Node(ITEM data)
         {
-            Data = data;
+            this.data = data;
         }
     }
     class DubleList<T>
     {
-        private Node<T> first;
+        public Node<T> first;
+        public Node<T> tail;
 
         public DubleList()
         {
@@ -58,38 +59,49 @@ namespace DoubleLinkedList
         public void Add(T data)
         {
             Node<T> node = new Node<T>(data);
-            
             if (first == null)
             {
                 first = node;
             }
             else
             {
-                first.Next = node.Prev;
-                node.Next = null;
-                node.Prev = first.Next;
-                //first.Next = node;
-                //node.Prev = first;
-                //first = node;
-                //Node<T> current = first;
-                //while (current.Next != null)
-                //{
-                //    //first.Next = node;
-                //    //node.Prev = first;
-                //    //current = current.Next;
-                //}
+                tail.next = node; // делаем резервное место под след значение
+                node.prev = tail; // кидаем указатель хвоста на пред элемент перед добавленым
             }
+            tail = node; // новый конец списка
+            
+
+
+            //if (first == null)
+            //{
+            //    first = node;
+            //}
+            //else
+            //{
+
+                
+            //    first.next = current;
+            //    current.prev = first;
+            //    //while (current.next != null)
+            //    //{
+            //    //    current.prev = first;
+            //    //    current.next = first.next;
+            //    //    first.next.prev = current;
+            //    //    first.next = current;
+            //    //}
+
+
+            //}
+            //current = node;
         }
 
-        public void Print()
+        public void PrintList()
         {
             Node<T> current = first;
-            int k = 0;
-            while (k<1)
+            while (current != null)
             {
-                Console.WriteLine(current.Data);
-                current = current.Next; // переход к следующему узлу
-                k++;
+                Console.WriteLine(current.data); // вывод значения элемента
+                current = current.next; // переход к следующему узлу
             }
         }
 
