@@ -10,11 +10,12 @@ namespace DoubleLinkedList
     {
         static void Main(string[] args)
         {
-            DubleList<int> list = new DubleList<int>();
-            list.Add(1);
-            list.Add(2);
-            list.Add(3);
-            list.Add(4);
+            DubleList<string> list = new DubleList<string>();
+            list.AddLast("a");
+            list.AddLast("b");
+            list.AddLast("c");
+            list.AddLast("d");
+            list.Delite("c");
 
             list.PrintList();
             Console.ReadKey();
@@ -23,40 +24,31 @@ namespace DoubleLinkedList
 
     class Node<ITEM>
     {
-        public ITEM data;
-        public Node<ITEM> next;
-        public Node<ITEM> prev;
-        //public ITEM Data
-        //{
-        //    get;
-        //    set;
-        //}
-        //public Node<ITEM> Next
-        //{
-        //    get;
-        //    set;
-        //}
-        //public Node<ITEM> Prev
-        //{
-        //    get;
-        //    set;
-        //}
+        ITEM data;
+        Node<ITEM> next;
+        Node<ITEM> prev;
+        public ITEM Data {
+            get;
+            set;}
+        public Node<ITEM> Next {get;set;}
+        public Node<ITEM> Prev {get;set;}
         public Node(ITEM data)
         {
-            this.data = data;
+            Data = data;
         }
     }
     class DubleList<T>
     {
-        public Node<T> first;
-        public Node<T> tail;
+        Node<T> first;
+        Node<T> last;
 
-        public DubleList()
+        public DubleList(T data)
         {
-            first = null;
+            //first = null;
+            //last = null;
         }
 
-        public void Add(T data)
+        public void AddLast(T data)
         {
             Node<T> node = new Node<T>(data);
             if (first == null)
@@ -65,34 +57,35 @@ namespace DoubleLinkedList
             }
             else
             {
-                tail.next = node; // делаем резервное место под след значение
-                node.prev = tail; // кидаем указатель хвоста на пред элемент перед добавленым
+                last.Next = node; // делаем резервное место под след значение
+                node.Prev = last; // кидаем указатель хвоста на пред элемент перед добавленым
             }
-            tail = node; // новый конец списка
-            
-
-
-            //if (first == null)
-            //{
-            //    first = node;
-            //}
-            //else
-            //{
-
-                
-            //    first.next = current;
-            //    current.prev = first;
-            //    //while (current.next != null)
-            //    //{
-            //    //    current.prev = first;
-            //    //    current.next = first.next;
-            //    //    first.next.prev = current;
-            //    //    first.next = current;
-            //    //}
-
-
-            //}
-            //current = node;
+            last = node; // новый конец списка
+        }
+        public void Delite(T data)
+        {
+            Node<T> current = first;
+            while (current != null)
+            {
+                if (current.Data.Equals(data))
+                {
+                    if (current == first)
+                    {
+                        first = current.Next;                        
+                    }
+                    else if (current == last)
+                    {
+                        last.Prev.Next = null;
+                        last = current.Prev;
+                    }
+                    else
+                    {
+                        current.Prev.Next = current.Next;
+                        current.Next.Prev = current.Prev;
+                    }
+                }
+                current = current.Next;
+            }
         }
 
         public void PrintList()
@@ -100,8 +93,8 @@ namespace DoubleLinkedList
             Node<T> current = first;
             while (current != null)
             {
-                Console.WriteLine(current.data); // вывод значения элемента
-                current = current.next; // переход к следующему узлу
+                Console.WriteLine(current.Data); // вывод значения элемента
+                current = current.Next; // переход к следующему узлу
             }
         }
 
